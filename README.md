@@ -49,7 +49,7 @@ Use Xcode's [built-in support for SPM](https://developer.apple.com/documentation
 In your `Package.swift`, add `GCOverseer` as a dependency:
 ```swift
 dependencies: [
-  .package(url: "https://github.com/backslash-f/gcoverseer", from: "1.0.0")
+  .package(url: "https://github.com/backslash-f/gcoverseer", from: "0.1.0")
 ],
 ```
 

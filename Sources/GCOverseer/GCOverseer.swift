@@ -7,7 +7,7 @@ public class GCOverseer: ObservableObject {
 
     // MARK: - Properties
 
-    @Published var isGameControllerConnected: Bool = false
+    @Published public var isGameControllerConnected: Bool = false
 
     var isLoggingEnabled: Bool = true
 
