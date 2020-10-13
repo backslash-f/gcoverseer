@@ -19,24 +19,25 @@
 
 ### Handle connected / disconnected events
 ```swift
-import GCOverseer
+import SpriteKit
 import Combine
+import GCOverseer
 
 class GameScene: SKScene {
 
-  let GCOverseer = GCOverseer()
+    let gcOverseer = GCOverseer()
 
-  var cancellables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
 
-  init(size: CGSize) {
-    super.init(size: size)
+    override init(size: CGSize) {
+        super.init(size: size)
 
-    // 🎮
-    GCOverseer.$isGameControllerConnected
-      .sink { isConnected in
-        // Do something
-      }
-      .store(in: &cancellables)
+        // 🎮
+        gcOverseer.$isGameControllerConnected
+            .sink { isConnected in
+                // Do something
+            }
+            .store(in: &cancellables)
     }
 }
 ```
