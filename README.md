@@ -46,6 +46,8 @@ class GameScene: SKScene {
 ### Xcode
 Use Xcode's [built-in support for SPM](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app).
 
+*or...*
+
 ### Package.swift
 In your `Package.swift`, add `GCOverseer` as a dependency:
 ```swift
