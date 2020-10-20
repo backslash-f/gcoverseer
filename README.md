@@ -7,7 +7,7 @@
 # GCOverseer
 [Combine](https://developer.apple.com/documentation/combine) wrapper around Apple's [Game Controller Framework](https://developer.apple.com/documentation/gamecontroller).
 
-## Tested platforms
+## Tested Platforms
  - iOS 14+
  - macOS 11+ (BigSur+)
  - Mac Catalyst 14+
@@ -15,9 +15,9 @@
  - Xcode 12+
  - Swift 5.3+
 
-## Usage
+## Usage Examples
 
-### Handle connected / disconnected events
+### Handle Connected / Disconnected Events
 ```swift
 import SpriteKit
 import Combine
@@ -41,6 +41,19 @@ class GameScene: SKScene {
     }
 }
 ```
+## Available Properties
+Property | Description
+-------- | -----------
+`@Published var isGameControllerConnected` | Subscribe to this variable to keep track of connect / disconnect events of game controllers.
+`@Published var connectedControllers` | Subscribe to this variable to keep track of any type of controllers (e.g.: `extendedGamepad`, `microGamepad`) that are connected to the device.
+`@Published var connectedExtendedGamepads` | Subscribe to this variable to keep track of `extendedGamepad` controllers that are connected to the device. E.g. *Dualshock*, *Xbox* controllers, etc.
+`@Published var connectedMicroGamepads` | Subscribe to this variable to keep track of `microGamepad` controllers that are connected to the device. E.g. Apple's *Siri Remote*.
+`isLoggingEnabled` | Enables / disables logging output to both *Xcode's Console* and the macOS *Console app*. `true` by default.
+
+## Available APIs
+API | Description
+--- | -----------
+`controllerFor(playerIndex:)` | Returns the controller for the player 1, player 2, etc.
 
 ## Integration
 ### Xcode
