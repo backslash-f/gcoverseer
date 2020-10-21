@@ -77,10 +77,7 @@ private extension GCOverseer {
             .publisher(for: notificationName)
             .handleEvents(receiveOutput: { [weak self] in
                 self?.log(notification: $0)
-                let currentControllers = GCController.controllers()
-                self?.connectedControllers = currentControllers
-                self?.connectedExtendedGamepads = currentControllers.filter { $0.extendedGamepad != nil }
-                self?.connectedMicroGamepads = currentControllers.filter { $0.microGamepad != nil }
+                self?.updateControllers()
             })
             .receive(on: DispatchQueue.main)
             .map({ _ in didConnect })
@@ -88,9 +85,11 @@ private extension GCOverseer {
             .store(in: &cancellableNotifications)
     }
 
-    // MARK: Logging
-
-    func log(notification: Notification) {
-        log(information: "Received game controller notification: \(notification)", category: .gcNotification)
+    func updateControllers() {
+        let currentControllers = GCController.controllers()
+        connectedControllers = currentControllers
+        connectedExtendedGamepads = currentControllers.filter { $0.extendedGamepad != nil }
+        connectedMicroGamepads = currentControllers.filter { $0.microGamepad != nil }
+        logAllControllerInfo()
     }
 }

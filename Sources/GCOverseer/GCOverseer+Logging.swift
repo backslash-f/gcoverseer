@@ -5,10 +5,15 @@ import AppLogger
 ///
 /// Refer to: https://developer.apple.com/documentation/os/logging
 public enum GCOverseerLoggingCategory: String {
-    case gcNotification = "GCNotification"
+    case gcNotification = "GCO_GCNotification"
+    case controllers = "GCO_Controllers"
 }
 
+// MARK: - Interface
+
 public extension GCOverseer {
+
+    // MARK: Enable / Disable Logging
 
     /// Enables logging information via `AppLogger`.
     ///
@@ -25,9 +30,56 @@ public extension GCOverseer {
     func disableLogging() {
         isLoggingEnabled = false
     }
+
+    // MARK: Controller Info
+
+    func logAllControllerInfo() {
+        logControllerInfo()
+        logExtendedControllerInfo()
+        logMicroPadControllerInfo()
+    }
+
+    func logControllerInfo() {
+        log(
+            information: "Number of connected controllers: \(connectedControllers.count)",
+            category: .controllers
+        )
+        log(
+            information: "Connected controllers: \(connectedControllers.count)",
+            category: .controllers
+        )
+    }
+
+    func logExtendedControllerInfo() {
+        log(
+            information: "Number of extended gamepads: \(connectedExtendedGamepads.count)",
+            category: .controllers
+        )
+        log(
+            information: "Extended gamepads: \(connectedExtendedGamepads)",
+            category: .controllers
+        )
+    }
+
+    func logMicroPadControllerInfo() {
+        log(
+            information: "Number of micro gamepads: \(connectedMicroGamepads.count)",
+            category: .controllers
+        )
+        log(
+            information: "Micro gamepads: \(connectedMicroGamepads.count)",
+            category: .controllers
+        )
+    }
 }
 
+// MARK: - Internal
+
 internal extension GCOverseer {
+    
+    func log(notification: Notification) {
+        log(information: "Received game controller notification: \(notification)", category: .gcNotification)
+    }
 
     /// Logs the given `String` information via `AppLogger`.
     ///
