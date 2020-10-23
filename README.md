@@ -45,15 +45,18 @@ class GameScene: SKScene {
 Property | Description
 -------- | -----------
 `@Published var isGameControllerConnected` | Subscribe to this variable to keep track of connect / disconnect events of game controllers.
-`@Published var connectedControllers` | Subscribe to this variable to keep track of any type of controllers (e.g.: `extendedGamepad`, `microGamepad`) that are connected to the device.
-`@Published var connectedExtendedGamepads` | Subscribe to this variable to keep track of `extendedGamepad` controllers that are connected to the device. E.g. *Dualshock*, *Xbox* controllers, etc.
-`@Published var connectedMicroGamepads` | Subscribe to this variable to keep track of `microGamepad` controllers that are connected to the device. E.g. Apple's *Siri Remote*.
-`isLoggingEnabled` | Enables / disables logging output to both *Xcode's Console* and the macOS *Console app*. `true` by default.
 
 ## Available APIs
 API | Description
 --- | -----------
+`controllers()` | Returns all controllers that are connected to the device. E.g. *Dualshock*, *Xbox*, *Siri Remote* controllers, etc.
+`extendedGamepadControllers()` | Returns all controllers supporting the `extendedGamepad` profile that are connected to the device. E.g. *Dualshock*, *Xbox* controllers, etc.
+`dualshockControllers()` | Returns all *DualShock* controllers that are connected to the device.
+`xboxControllers()` | Returns all *Xbox* controllers that are connected to the device.
+`microGamepadControllers()` | Returns all controllers supporting the `microGamepad` profile that are connected to the device. E.g. Apple's *Siri Remote*.
+`motionControllers()` | Returns all controllers supporting the `motion` profile that are connected to the device.
 `controllerFor(playerIndex:)` | Returns the controller for the player 1, player 2, etc.
+`enableLogging() / disableLogging()` | Enables / disables logging output.
 
 ## Integration
 ### Xcode

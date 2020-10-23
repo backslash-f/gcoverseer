@@ -5,8 +5,8 @@ import AppLogger
 ///
 /// Refer to: https://developer.apple.com/documentation/os/logging
 public enum GCOverseerLoggingCategory: String {
-    case gcNotification = "GCO_GCNotification"
-    case controllers = "GCO_Controllers"
+    case gcNotification = "GCO_Notification"
+    case controller = "GCO_Controller"
 }
 
 // MARK: - Interface
@@ -29,47 +29,6 @@ public extension GCOverseer {
     /// Disables logging information via `AppLogger`.
     func disableLogging() {
         isLoggingEnabled = false
-    }
-
-    // MARK: Controller Info
-
-    func logAllControllerInfo() {
-        logControllerInfo()
-        logExtendedControllerInfo()
-        logMicroPadControllerInfo()
-    }
-
-    func logControllerInfo() {
-        log(
-            information: "Number of connected controllers: \(connectedControllers.count)",
-            category: .controllers
-        )
-        log(
-            information: "Connected controllers: \(connectedControllers.count)",
-            category: .controllers
-        )
-    }
-
-    func logExtendedControllerInfo() {
-        log(
-            information: "Number of extended gamepads: \(connectedExtendedGamepads.count)",
-            category: .controllers
-        )
-        log(
-            information: "Extended gamepads: \(connectedExtendedGamepads)",
-            category: .controllers
-        )
-    }
-
-    func logMicroPadControllerInfo() {
-        log(
-            information: "Number of micro gamepads: \(connectedMicroGamepads.count)",
-            category: .controllers
-        )
-        log(
-            information: "Micro gamepads: \(connectedMicroGamepads.count)",
-            category: .controllers
-        )
     }
 }
 
