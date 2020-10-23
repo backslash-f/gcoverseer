@@ -7,7 +7,7 @@
 # GCOverseer
 [Combine](https://developer.apple.com/documentation/combine) wrapper around Apple's [Game Controller Framework](https://developer.apple.com/documentation/gamecontroller).
 
-## Tested platforms
+## Tested Platforms
  - iOS 14+
  - macOS 11+ (BigSur+)
  - Mac Catalyst 14+
@@ -15,9 +15,9 @@
  - Xcode 12+
  - Swift 5.3+
 
-## Usage
+## Usage Examples
 
-### Handle connected / disconnected events
+### Handle Connected / Disconnected Events
 ```swift
 import SpriteKit
 import Combine
@@ -41,6 +41,22 @@ class GameScene: SKScene {
     }
 }
 ```
+## Available Properties
+Property | Description
+-------- | -----------
+`@Published var isGameControllerConnected` | Subscribe to this variable to keep track of connect / disconnect events of game controllers.
+
+## Available APIs
+API | Description
+--- | -----------
+`controllers()` | Returns all controllers that are connected to the device. E.g. *Dualshock*, *Xbox*, *Siri Remote* controllers, etc.
+`extendedGamepadControllers()` | Returns all controllers supporting the `extendedGamepad` profile that are connected to the device. E.g. *Dualshock*, *Xbox* controllers, etc.
+`dualshockControllers()` | Returns all *DualShock* controllers that are connected to the device.
+`xboxControllers()` | Returns all *Xbox* controllers that are connected to the device.
+`microGamepadControllers()` | Returns all controllers supporting the `microGamepad` profile that are connected to the device. E.g. Apple's *Siri Remote*.
+`motionControllers()` | Returns all controllers supporting the `motion` profile that are connected to the device.
+`controllerFor(playerIndex:)` | Returns the controller for the player 1, player 2, etc.
+`enableLogging() / disableLogging()` | Enables / disables logging output.
 
 ## Integration
 ### Xcode

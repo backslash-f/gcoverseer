@@ -7,11 +7,15 @@ public class GCOverseer: ObservableObject {
 
     // MARK: - Properties
 
+    /// Subscribe to this variable to keep track of connect / disconnect events of game controllers.
     @Published public var isGameControllerConnected: Bool = false
 
-    var isLoggingEnabled: Bool = true
+    // MARK: Internal Properties
 
-    // MARK: - Private Properties
+    /// Enables / disables logging output to both *Xcode's Console* and the macOS *Console app*. `true` by default.
+    internal var isLoggingEnabled: Bool = true
+
+    // MARK: Private Properties
 
     private var cancellableNotifications = Set<AnyCancellable>()
 
@@ -41,16 +45,10 @@ private extension GCOverseer {
         let didConnect = (notificationName == .GCControllerDidConnect)
         notificationCenter
             .publisher(for: notificationName)
-            .handleEvents(receiveOutput: { self.log(notification: $0) })
+            .handleEvents(receiveOutput: { [weak self] in self?.log(notification: $0) })
             .receive(on: DispatchQueue.main)
             .map({ _ in didConnect })
             .assign(to: \.isGameControllerConnected, on: self)
             .store(in: &cancellableNotifications)
-    }
-
-    // MARK: Logging
-
-    func log(notification: Notification) {
-        log(information: "Received game controller notification: \(notification)", category: .gcNotification)
     }
 }
