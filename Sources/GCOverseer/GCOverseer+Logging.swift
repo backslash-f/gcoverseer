@@ -5,8 +5,8 @@ import AppLogger
 ///
 /// Refer to: https://developer.apple.com/documentation/os/logging
 public enum GCOverseerLoggingCategory: String {
-    case gcNotification = "GCO_Notification"
-    case controller = "GCO_Controller"
+    case controller     = "GCOverseer_Controller"
+    case notification   = "GCOverseer_Notification"
 }
 
 // MARK: - Interface
@@ -37,7 +37,7 @@ public extension GCOverseer {
 internal extension GCOverseer {
     
     func log(notification: Notification) {
-        log(information: "Received game controller notification: \(notification)", category: .gcNotification)
+        log(information: "Received game controller notification: \(notification)", category: .notification)
     }
 
     /// Logs the given `String` information via `AppLogger`.
