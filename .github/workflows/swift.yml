@@ -1,13 +1,25 @@
+---
 name: "build & test"
 on: [push]
+
 jobs:
+  checkout:
+    runs-on: macos-11.0
+    steps:
+      - uses: actions/checkout@v2
+
   build:
     runs-on: macos-11.0
     env:
       DEVELOPER_DIR: /Applications/Xcode_12.2.app/Contents/Developer
+    needs: checkout
     steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      run: swift build -v
-    - name: Run Tests
-      run: swift test -v
+      - run: swift build -v
+
+  test:
+    runs-on: macos-11.0
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_12.2.app/Contents/Developer
+    needs: build
+    steps:
+      - run: swift test -v
