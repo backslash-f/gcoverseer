@@ -1,9 +1,9 @@
 ---
-name: "Build & Test"
+name: "CI"
 on: [push]
 
 jobs:
-  build-and-test:
+  build-test:
     runs-on: macos-11.0
     env:
       DEVELOPER_DIR: /Applications/Xcode_12.2.app/Contents/Developer
