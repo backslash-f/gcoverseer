@@ -44,7 +44,7 @@ class GameScene: SKScene {
 ## Available Properties
 Property | Description
 -------- | -----------
-`@Published var isGameControllerConnected` | Subscribe to this variable to keep track of connect / disconnect events of game controllers.
+`@Published var isGameControllerConnected: Bool` | Subscribe to this variable to keep track of connect / disconnect events of game controllers.
 
 ## Available APIs
 API | Description
