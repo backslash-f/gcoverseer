@@ -8,7 +8,7 @@ public class GCOverseer: ObservableObject {
     // MARK: - Properties
 
     /// Subscribe to this variable to keep track of connect / disconnect events of game controllers.
-    @Published public var isGameControllerConnected: Bool = false
+    @Published public var isGameControllerConnected: Bool = GCController.controllers().count >= 1
 
     // MARK: Internal Properties
 
