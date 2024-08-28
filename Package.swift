@@ -15,7 +15,11 @@ let package = Package(
             targets: ["GCOverseer"]),
     ],
     dependencies: [
-        .package(name: "AppLogger", url: "https://github.com/backslash-f/applogger", from: "1.0.0")
+        .package(
+            name: "AppLogger",
+            url: "https://github.com/backslash-f/applogger",
+            .upToNextMajor(from: "2.0.0")
+        )
     ],
     targets: [
         .target(
