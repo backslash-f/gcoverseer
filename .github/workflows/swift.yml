@@ -1,16 +1,20 @@
 ---
 name: "CI"
-on: [push]
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build-test:
-    runs-on: macos-11.0
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_12.2.app/Contents/Developer
+  test:
+    runs-on: macos-latest
     steps:
-      - name: Check out
-        uses: actions/checkout@v2
-      - name: Build
-        run: swift build -v
-      - name: Test
+      - uses: actions/checkout@v4
+      - name: Run Tests
         run: swift test -v
