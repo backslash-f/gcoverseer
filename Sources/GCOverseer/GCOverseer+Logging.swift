@@ -35,7 +35,7 @@ public extension GCOverseer {
 // MARK: - Internal
 
 internal extension GCOverseer {
-    
+
     func log(notification: Notification) {
         log(information: "Received game controller notification: \(notification)", category: .notification)
     }

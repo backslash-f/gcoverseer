@@ -7,6 +7,6 @@ final class GCOverseerTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testIsLoggingEnabledByDefault", testIsLoggingEnabledByDefault),
+        ("testIsLoggingEnabledByDefault", testIsLoggingEnabledByDefault)
     ]
 }
