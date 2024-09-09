@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:6.0
 
 import PackageDescription
 
@@ -12,11 +12,11 @@ let package = Package(
     products: [
         .library(
             name: "GCOverseer",
-            targets: ["GCOverseer"]),
+            targets: ["GCOverseer"]
+        )
     ],
     dependencies: [
         .package(
-            name: "AppLogger",
             url: "https://github.com/backslash-f/applogger",
             .upToNextMajor(from: "2.0.0")
         )
@@ -24,10 +24,17 @@ let package = Package(
     targets: [
         .target(
             name: "GCOverseer",
-            dependencies: ["AppLogger"]),
+            dependencies: [
+                .product(
+                    name: "AppLogger",
+                    package: "applogger"
+                )
+            ]
+        ),
         .testTarget(
             name: "GCOverseerTests",
-            dependencies: ["GCOverseer"]),
+            dependencies: ["GCOverseer"]
+        )
     ],
-    swiftLanguageVersions: [.v5]
+    swiftLanguageModes: [.v5, .v6]
 )
