@@ -6,7 +6,7 @@ final class GCOverseerTests: XCTestCase {
         XCTAssertTrue(GCOverseer().isLoggingEnabled)
     }
 
-    static var allTests = [
+    static let allTests = [
         ("testIsLoggingEnabledByDefault", testIsLoggingEnabledByDefault)
     ]
 }
