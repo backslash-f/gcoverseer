@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   test:
-    runs-on: macos-latest
+    runs-on: macOS
     steps:
       - uses: actions/checkout@v4
       - name: Run Tests
