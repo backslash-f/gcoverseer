@@ -3,7 +3,7 @@ import GameController
 import Combine
 
 /// Observes MFI or Remote Controllers in the area. Sets them up.
-public class GCOverseer: ObservableObject {
+public class GCOverseer: ObservableObject, GCOverseerProtocol {
 
     // MARK: - Properties
 
