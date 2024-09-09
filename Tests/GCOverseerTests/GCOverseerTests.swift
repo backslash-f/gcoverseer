@@ -1,12 +1,12 @@
-import XCTest
+import Testing
 @testable import GCOverseer
 
-final class GCOverseerTests: XCTestCase {
-    func testIsLoggingEnabledByDefault() {
-        XCTAssertTrue(GCOverseer().isLoggingEnabled)
-    }
+@Test("No controllers by default") func initialState() {
+    let overseer = GCOverseer()
+    #expect(!overseer.isGameControllerConnected)
+}
 
-    static let allTests = [
-        ("testIsLoggingEnabledByDefault", testIsLoggingEnabledByDefault)
-    ]
+@Test("isLogging is enabled by default") func isLoggingEnabled() {
+    let overseer = GCOverseer()
+    #expect(overseer.isLoggingEnabled)
 }

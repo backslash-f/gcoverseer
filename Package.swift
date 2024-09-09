@@ -19,6 +19,10 @@ let package = Package(
         .package(
             url: "https://github.com/backslash-f/applogger",
             .upToNextMajor(from: "2.0.0")
+        ),
+        .package(
+            url: "https://github.com/apple/swift-testing.git",
+            .upToNextMajor(from: "0.12.0")
         )
     ],
     targets: [
@@ -33,7 +37,13 @@ let package = Package(
         ),
         .testTarget(
             name: "GCOverseerTests",
-            dependencies: ["GCOverseer"]
+            dependencies: [
+                "GCOverseer",
+                .product(
+                    name: "Testing",
+                    package: "swift-testing"
+                )
+            ]
         )
     ],
     swiftLanguageModes: [.v5, .v6]
