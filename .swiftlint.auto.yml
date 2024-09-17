@@ -6,3 +6,6 @@ only_rules:
   - trailing_newline
   - trailing_whitespace
   - vertical_whitespace
+
+excluded:
+  - '.build/*'
