@@ -20,9 +20,10 @@ let package = Package(
             url: "https://github.com/backslash-f/applogger",
             .upToNextMajor(from: "2.0.0")
         ),
+
         .package(
             url: "https://github.com/apple/swift-testing.git",
-            .upToNextMajor(from: "0.12.0")
+            branch: "swift-6.0.1-RELEASE"
         )
     ],
     targets: [
