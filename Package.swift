@@ -23,7 +23,7 @@ let package = Package(
 
         .package(
             url: "https://github.com/apple/swift-testing.git",
-            branch: "swift-6.0.1-RELEASE"
+            branch: "swift-6.0.2-RELEASE"
         )
     ],
     targets: [
