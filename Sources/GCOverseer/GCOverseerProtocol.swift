@@ -3,12 +3,11 @@ import GameController
 
 /// Protocol for GCOverseer operations, used for abstraction and testing.
 public protocol GCOverseerProtocol {
+    /// Returns all controllers that are connected to the device.
+    var controllers: [GCController] { get }
 
     /// Subscribe to this variable to keep track of connect / disconnect events of game controllers.
     var isGameControllerConnected: Bool { get }
-
-    /// Returns all controllers that are connected to the device.
-    func controllers() -> [GCController]
 
     /// Returns all controllers supporting the `extendedGamepad` profile that are connected to the device.
     func extendedGamepadControllers() -> [GCController]
