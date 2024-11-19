@@ -39,7 +39,7 @@ public class GCOverseer: ObservableObject, GCOverseerProtocol {
     private let notificationCenter = NotificationCenter.default
 
     // MARK: - Lifecycle
-    
+
     /// Creates an instance of the `GCOverseer` and listens to game controller notifications.
     ///
     /// - Parameter controllers: Allows for mocking during tests.

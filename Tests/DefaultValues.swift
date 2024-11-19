@@ -6,7 +6,7 @@ import Testing
         let overseer = GCOverseer()
         #expect(!overseer.isGameControllerConnected)
     }
-    
+
     @Test("isLogging is enabled by default") func isLoggingEnabled() {
         let overseer = GCOverseer()
         #expect(overseer.isLoggingEnabled)

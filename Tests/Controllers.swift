@@ -7,7 +7,7 @@ import Testing
     func extendedGamepadControllerTest() {
         let extendedController = GCController.withExtendedGamepad()
         let overseer = GCOverseer(controllers: [extendedController])
-        
+
         #expect(overseer.extendedGamepadControllers().count == 1)
         #expect(overseer.extendedGamepadControllers().contains(extendedController))
     }
