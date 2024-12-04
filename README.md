@@ -49,8 +49,8 @@ Property | Description
 ## Available APIs
 API | Description
 --- | -----------
-`controllers()` | Returns all controllers connected to the device. E.g. *Dualshock*, *Xbox*, *Siri Remote* controllers, etc.
-`extendedGamepadControllers()` | Returns all controllers supporting the `extendedGamepad` profile connected to the device. E.g., *Dualshock*, *Xbox* controllers, etc.
+`controllers()` | Returns all controllers connected to the device. E.g. *DualShock*, *Xbox*, *Siri Remote* controllers, etc.
+`extendedGamepadControllers()` | Returns all controllers supporting the `extendedGamepad` profile connected to the device. E.g., *DualShock*, *Xbox* controllers, etc.
 `dualShockControllers()` | Returns all *DualShock* controllers that are connected to the device.
 `dualSenseControllers()` | Returns all *DualSense* controllers that are connected to the device.
 `xboxControllers()` | Returns all *Xbox* controllers that are connected to the device.

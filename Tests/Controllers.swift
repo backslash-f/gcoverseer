@@ -18,7 +18,7 @@ import Testing
     }
 
     @Test("Returns only DualShock controllers")
-    func dualshockControllerTest() {
+    func dualShockControllerTest() {
         // Given
         let dualShockProfile = MockGCPhysicalInputProfile(mockClass: GCDualShockGamepad.self)
         let dualShockController = MockGCController(physicalInputProfile: dualShockProfile)
@@ -28,7 +28,7 @@ import Testing
 
         // When
         let overseer = GCOverseer(controllers: [dualShockController, nonDualShockController])
-        let dualShockControllers = overseer.dualshockControllers()
+        let dualShockControllers = overseer.dualShockControllers()
 
         // Then
         #expect(dualShockControllers.count == 1)

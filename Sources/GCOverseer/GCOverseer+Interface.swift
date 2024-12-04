@@ -2,7 +2,7 @@ import GameController
 
 /// Public APIs go here.
 public extension GCOverseer {
-    /// Returns all controllers supporting the `extendedGamepad` profile that are connected to the device. E.g. *Dualshock*, *Xbox* controllers, etc.
+    /// Returns all controllers supporting the `extendedGamepad` profile that are connected to the device. E.g. *DualShock*, *Xbox* controllers, etc.
     ///
     /// The controls associated with the extended gamepad profile include the following:
     /// - Two shoulder buttons.
@@ -26,11 +26,11 @@ public extension GCOverseer {
     /// Returns all *DualShock* controllers that are connected to the device.
     ///
     /// - Returns: All the connected controllers with `physicalInputProfile` matching `GCDualShockGamepad`.
-    func dualshockControllers() -> [GCController] {
+    func dualShockControllers() -> [GCController] {
         let controllers = controllers.filter {
             $0.physicalInputProfile.isKind(of: GCDualShockGamepad.self)
         }
-        log(information: "Number of Dualshock controllers: \(controllers.count)", category: .controller)
+        log(information: "Number of DualShock controllers: \(controllers.count)", category: .controller)
         return controllers
     }
 

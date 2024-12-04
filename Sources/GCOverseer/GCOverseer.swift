@@ -6,7 +6,7 @@ import Combine
 public class GCOverseer: ObservableObject, GCOverseerProtocol {
     // MARK: - Properties
 
-    /// Returns all controllers that are connected to the device. E.g. *Dualshock*, *Xbox*, *Siri Remote* controllers, etc.
+    /// Returns all controllers that are connected to the device. E.g. *DualShock*, *Xbox*, *Siri Remote* controllers, etc.
     ///
     /// The returned controllers support any gamepad profile: `extendedGamepad`, `microGamepad`, `motion`, etc.
     ///
@@ -17,7 +17,7 @@ public class GCOverseer: ObservableObject, GCOverseerProtocol {
                 log(information: "Number of connected controllers: \(self.controllers.count)", category: .controller)
                 self.controllers.enumerated().forEach {
                     let productCategoryPrefix = "Product category of controller \($0.offset + 1):"
-                    let productCategory = String(describing: $0.element.productCategory) // E.g.: "Dualshock 4"
+                    let productCategory = String(describing: $0.element.productCategory) // E.g.: "DualShock 4"
                     log(information: "\(productCategoryPrefix) \(productCategory)", category: .controller)
                 }
             }

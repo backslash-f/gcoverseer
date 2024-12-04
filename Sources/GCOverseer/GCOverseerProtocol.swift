@@ -13,7 +13,7 @@ public protocol GCOverseerProtocol {
     func extendedGamepadControllers() -> [GCController]
 
     /// Returns all *DualShock* controllers that are connected to the device.
-    func dualshockControllers() -> [GCController]
+    func dualShockControllers() -> [GCController]
 
     /// Returns all *DualSense* controllers that are connected to the device.
     func dualSenseControllers() -> [GCController]
