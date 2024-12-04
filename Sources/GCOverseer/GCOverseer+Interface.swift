@@ -34,6 +34,17 @@ public extension GCOverseer {
         return controllers
     }
 
+    /// Returns all *DualSense* controllers that are connected to the device.
+    ///
+    /// - Returns: All the connected controllers with `physicalInputProfile` matching `GCDualSenseGamepad`.
+    func dualSenseControllers() -> [GCController] {
+        let controllers = controllers.filter {
+            $0.physicalInputProfile.isKind(of: GCDualSenseGamepad.self)
+        }
+        log(information: "Number of DualSense controllers: \(controllers.count)", category: .controller)
+        return controllers
+    }
+
     /// Returns all *Xbox* controllers that are connected to the device.
     ///
     /// - Returns: All the connected controllers with `physicalInputProfile` matching `GCXboxGamepad`.
