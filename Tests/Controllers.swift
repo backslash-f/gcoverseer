@@ -36,6 +36,25 @@ import Testing
         #expect(!dualShockControllers.contains(nonDualShockController))
     }
 
+    @Test("Returns only DualSense controllers")
+    func dualSenseControllerTest() {
+        // Given
+        let dualSenseProfile = MockGCPhysicalInputProfile(mockClass: GCDualSenseGamepad.self)
+        let dualSenseController = MockGCController(physicalInputProfile: dualSenseProfile)
+
+        let nonDualShockProfile = MockGCPhysicalInputProfile(mockClass: GCPhysicalInputProfile.self)
+        let nonDualShockController = MockGCController(physicalInputProfile: nonDualShockProfile)
+
+        // When
+        let overseer = GCOverseer(controllers: [dualSenseController, nonDualShockController])
+        let dualSenseControllers = overseer.dualSenseControllers()
+
+        // Then
+        #expect(dualSenseControllers.count == 1)
+        #expect(dualSenseControllers.contains(dualSenseController))
+        #expect(!dualSenseControllers.contains(nonDualShockController))
+    }
+
     @Test("Returns only Xbox controllers")
     func xboxControllerTest() {
         // Given
