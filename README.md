@@ -47,11 +47,11 @@ class GameScene: SKScene {
 Property | Description
 -------- | -----------
 `var connectionStream: AsyncStream<GameControllerEvent>` | Provides an `AsyncSequence` for observing connect/disconnect events of game controllers.
+`var controllers: [GCController]` | Returns all controllers connected to the device. E.g. *DualShock*, *Xbox*, *Siri Remote* controllers, etc.
 
 ## Available APIs
 API | Description
 --- | -----------
-`controllers` | Returns all controllers connected to the device. E.g. *DualShock*, *Xbox*, *Siri Remote* controllers, etc.
 `extendedGamepadControllers()` | Returns all controllers supporting the `extendedGamepad` profile connected to the device. E.g., *DualShock*, *Xbox* controllers, etc.
 `dualShockControllers()` | Returns all *DualShock* controllers that are connected to the device.
 `dualSenseControllers()` | Returns all *DualSense* controllers that are connected to the device.
