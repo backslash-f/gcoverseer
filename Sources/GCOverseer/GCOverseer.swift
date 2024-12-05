@@ -19,12 +19,12 @@ public class GCOverseer: GCOverseerProtocol, @unchecked Sendable {
         didSet { logConnectedControllers() }
     }
 
-    // MARK: Internal Properties
+    // MARK: Internal
 
     /// Enables / disables logging output to both *Xcode's Console* and the macOS *Console app*. `true` by default.
     internal var isLoggingEnabled: Bool = true
 
-    // MARK: Private Properties
+    // MARK: Private
 
     private let notificationCenter = NotificationCenter.default
     private let controllersProvider: () -> [GCController]
@@ -39,7 +39,7 @@ public class GCOverseer: GCOverseerProtocol, @unchecked Sendable {
     ///
     /// - Parameter controllersProvider: The source for the `controllers` property. Allows for mocking during tests.
     /// Defaults to `GCController.controllers`.
-    public init(controllersProvider:  @escaping () -> [GCController] = GCController.controllers) {
+    public init(controllersProvider: @escaping () -> [GCController] = GCController.controllers) {
         self.controllersProvider = controllersProvider
         self.controllers = controllersProvider()
     }
