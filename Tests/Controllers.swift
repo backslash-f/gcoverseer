@@ -8,9 +8,10 @@ import Testing
         // Given
         let extendedController = GCController.withExtendedGamepad()
         let microGamepadController = GCController.withMicroGamepad()
+        let controllersProvider = { [extendedController, microGamepadController] }
 
         // When
-        let overseer = GCOverseer(controllers: [extendedController, microGamepadController])
+        let overseer = GCOverseer(controllersProvider: controllersProvider)
 
         // Then
         #expect(overseer.extendedGamepadControllers().count == 1)
@@ -26,8 +27,10 @@ import Testing
         let nonDualShockProfile = MockGCPhysicalInputProfile(mockClass: GCPhysicalInputProfile.self)
         let nonDualShockController = MockGCController(physicalInputProfile: nonDualShockProfile)
 
+        let controllersProvider = { [dualShockController, nonDualShockController] }
+
         // When
-        let overseer = GCOverseer(controllers: [dualShockController, nonDualShockController])
+        let overseer = GCOverseer(controllersProvider: controllersProvider)
         let dualShockControllers = overseer.dualShockControllers()
 
         // Then
@@ -45,8 +48,10 @@ import Testing
         let nonDualShockProfile = MockGCPhysicalInputProfile(mockClass: GCPhysicalInputProfile.self)
         let nonDualShockController = MockGCController(physicalInputProfile: nonDualShockProfile)
 
+        let controllersProvider = { [dualSenseController, nonDualShockController] }
+
         // When
-        let overseer = GCOverseer(controllers: [dualSenseController, nonDualShockController])
+        let overseer = GCOverseer(controllersProvider: controllersProvider)
         let dualSenseControllers = overseer.dualSenseControllers()
 
         // Then
@@ -64,8 +69,10 @@ import Testing
         let dualShockProfile = MockGCPhysicalInputProfile(mockClass: GCDualShockGamepad.self)
         let dualShockController = MockGCController(physicalInputProfile: dualShockProfile)
 
+        let controllersProvider = { [xboxController, dualShockController] }
+
         // When
-        let overseer = GCOverseer(controllers: [xboxController, dualShockController])
+        let overseer = GCOverseer(controllersProvider: controllersProvider)
         let xboxControllers = overseer.xboxControllers()
 
         // Then
@@ -82,8 +89,10 @@ import Testing
         let dualShockProfile = MockGCPhysicalInputProfile(mockClass: GCDualShockGamepad.self)
         let dualShockController = MockGCController(physicalInputProfile: dualShockProfile)
 
+        let controllersProvider = { [microGamepadController, dualShockController] }
+
         // When
-        let overseer = GCOverseer(controllers: [microGamepadController, dualShockController])
+        let overseer = GCOverseer(controllersProvider: controllersProvider)
         let microGamepadControllers = overseer.microGamepadControllers()
 
         // Then
@@ -102,8 +111,10 @@ import Testing
         let xboxProfile = MockGCPhysicalInputProfile(mockClass: GCXboxGamepad.self)
         let xboxController = MockGCController(physicalInputProfile: xboxProfile, motion: nil)
 
+        let controllersProvider = { [motionController, xboxController] }
+
         // When
-        let overseer = GCOverseer(controllers: [motionController, xboxController])
+        let overseer = GCOverseer(controllersProvider: controllersProvider)
         let motionControllers = overseer.motionControllers()
 
         // Then
@@ -124,8 +135,10 @@ import Testing
         let unsetInputProfile = MockGCPhysicalInputProfile(mockClass: GCXboxGamepad.self)
         let unsetController = MockGCController(physicalInputProfile: unsetInputProfile, playerIndex: .indexUnset)
 
+        let controllersProvider = { [player1Controller, player2Controller, unsetController] }
+
         // When
-        let overseer = GCOverseer(controllers: [player1Controller, player2Controller, unsetController])
+        let overseer = GCOverseer(controllersProvider: controllersProvider)
         let controllerForPlayer1 = overseer.controllerFor(playerIndex: .index1)
         let controllerForPlayer2 = overseer.controllerFor(playerIndex: .index2)
         let controllerForUnset = overseer.controllerFor(playerIndex: .indexUnset)

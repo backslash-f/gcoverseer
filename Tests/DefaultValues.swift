@@ -2,11 +2,11 @@ import Testing
 @testable import GCOverseer
 
 @Suite struct DefaultValues {
-    @Test("No controllers by default") func initialState() {
+    @Test("No controllers are connected by default") func initialState() async {
         let overseer = GCOverseer()
-        #expect(!overseer.isGameControllerConnected)
+        #expect(overseer.controllers.isEmpty)
     }
-
+    
     @Test("isLogging is enabled by default") func isLoggingEnabled() {
         let overseer = GCOverseer()
         #expect(overseer.isLoggingEnabled)
