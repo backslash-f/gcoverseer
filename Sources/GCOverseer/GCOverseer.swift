@@ -6,7 +6,7 @@ public class GCOverseer: GCOverseerProtocol, @unchecked Sendable {
     // MARK: - Properties
 
     /// Provides an `AsyncSequence` for observing connect/disconnect events of game controllers.
-    public var gameControllerConnectionStream: AsyncStream<GameControllerEvent> {
+    public var connectionStream: AsyncStream<GameControllerEvent> {
         createConnectionStream()
     }
 

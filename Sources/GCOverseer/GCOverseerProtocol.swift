@@ -7,7 +7,7 @@ public protocol GCOverseerProtocol {
     var controllers: [GCController] { get }
 
     /// Provides an `AsyncSequence` for observing connect/disconnect events of game controllers.
-    var gameControllerConnectionStream: AsyncStream<GameControllerEvent> { get }
+    var connectionStream: AsyncStream<GameControllerEvent> { get }
 
     /// Returns all controllers supporting the `extendedGamepad` profile that are connected to the device.
     func extendedGamepadControllers() -> [GCController]

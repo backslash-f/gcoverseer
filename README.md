@@ -31,7 +31,7 @@ class GameScene: SKScene {
 
         // 🎮 Handle game controller connection/disconnection asynchronously
         Task {
-            for await controllerEvent in gcOverseer.gameControllerConnectionStream {
+            for await controllerEvent in gcOverseer.connectionStream {
                 switch controllerEvent {
                 case .connected:
                     print("A game controller connected.")
@@ -46,7 +46,7 @@ class GameScene: SKScene {
 ## Available Properties
 Property | Description
 -------- | -----------
-`var gameControllerConnectionStream: AsyncStream<GameControllerEvent>` | Provides an `AsyncSequence` for observing connect/disconnect events of game controllers.
+`var connectionStream: AsyncStream<GameControllerEvent>` | Provides an `AsyncSequence` for observing connect/disconnect events of game controllers.
 
 ## Available APIs
 API | Description
