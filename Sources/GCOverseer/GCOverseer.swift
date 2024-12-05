@@ -1,31 +1,23 @@
 import Foundation
 import GameController
-import Combine
 
 /// Observes MFI or Remote Controllers in the area. Sets them up.
-public class GCOverseer: ObservableObject, GCOverseerProtocol {
+public class GCOverseer: GCOverseerProtocol, @unchecked Sendable {
     // MARK: - Properties
+
+    /// Provides an `AsyncSequence` for observing connect/disconnect events of game controllers.
+    public var gameControllerConnectionStream: AsyncStream<GameControllerEvent> {
+        createConnectionStream()
+    }
 
     /// Returns all controllers that are connected to the device. E.g. *DualShock*, *Xbox*, *Siri Remote* controllers, etc.
     ///
     /// The returned controllers support any gamepad profile: `extendedGamepad`, `microGamepad`, `motion`, etc.
     ///
     /// - Returns: All controllers that are connected to the device.
-    public var controllers: [GCController] {
-        didSet {
-            if isLoggingEnabled {
-                log(information: "Number of connected controllers: \(self.controllers.count)", category: .controller)
-                self.controllers.enumerated().forEach {
-                    let productCategoryPrefix = "Product category of controller \($0.offset + 1):"
-                    let productCategory = String(describing: $0.element.productCategory) // E.g.: "DualShock 4"
-                    log(information: "\(productCategoryPrefix) \(productCategory)", category: .controller)
-                }
-            }
-        }
+    public var controllers: [GCController] = GCController.controllers() {
+        didSet { logConnectedControllers() }
     }
-
-    /// Subscribe to this variable to keep track of connect / disconnect events of game controllers.
-    @Published public var isGameControllerConnected: Bool = GCController.controllers().count >= 1
 
     // MARK: Internal Properties
 
@@ -34,46 +26,75 @@ public class GCOverseer: ObservableObject, GCOverseerProtocol {
 
     // MARK: Private Properties
 
-    private var cancellableNotifications = Set<AnyCancellable>()
-
     private let notificationCenter = NotificationCenter.default
+    private let controllersProvider: () -> [GCController]
 
     // MARK: - Lifecycle
 
-    /// Creates an instance of the `GCOverseer` and listens to game controller notifications.
+    /// Creates an instance of the `GCOverseer` and starts observing game controller notifications.
     ///
-    /// - Parameter controllers: Allows for mocking during tests.
-    /// Defaults to `GCController.controllers()`.
-    public init(controllers: [GCController]? = nil) {
-        self.controllers = controllers ?? GCController.controllers()
-        listenToGameControllerNotifications()
+    /// Observed `GCController` notifications:
+    ///  - `.GCControllerDidConnect`
+    ///  - `.GCControllerDidDisconnect`
+    ///
+    /// - Parameter controllersProvider: The source for the `controllers` property. Allows for mocking during tests.
+    /// Defaults to `GCController.controllers`.
+    public init(controllersProvider:  @escaping () -> [GCController] = GCController.controllers) {
+        self.controllersProvider = controllersProvider
+        self.controllers = controllersProvider()
     }
 }
 
 // MARK: - Private
 
 private extension GCOverseer {
+    /// Creates an `AsyncStream` that emits `true` when a controller connects
+    /// and `false` when a controller disconnects.
+    ///
+    /// This stream listens to the following notifications in real-time:
+    /// - `.GCControllerDidConnect`
+    /// - `.GCControllerDidDisconnect`
+    ///
+    /// The stream continues running indefinitely until explicitly terminated or deallocated.
+    ///
+    /// - Returns: An `AsyncStream<GameControllerEvent>` representing the connection state changes.
+    func createConnectionStream() -> AsyncStream<GameControllerEvent> {
+        AsyncStream { continuation in
+            // Handle `.GCControllerDidConnect` notifications
+            let connectTask = Task {
+                for await _ in notificationCenter.notifications(named: .GCControllerDidConnect) {
+                    await updateControllers()
+                    continuation.yield(.connected)
+                }
+            }
 
-    // MARK: - GCController Notification
+            // Handle `.GCControllerDidDisconnect` notifications
+            let disconnectTask = Task {
+                for await _ in notificationCenter.notifications(named: .GCControllerDidDisconnect) {
+                    await updateControllers()
+                    continuation.yield(.disconnected)
+                }
+            }
 
-    func listenToGameControllerNotifications() {
-        setupSubscription(for: .GCControllerDidConnect)
-        setupSubscription(for: .GCControllerDidDisconnect)
+            // Cancel tasks when the stream is terminated
+            continuation.onTermination = { _ in
+                connectTask.cancel()
+                disconnectTask.cancel()
+            }
+        }
     }
 
-    // MARK: Subscription Setup
+    @MainActor
+    func updateControllers() {
+        controllers = controllersProvider()
+    }
 
-    func setupSubscription(for notificationName: Notification.Name) {
-        let didConnect = (notificationName == .GCControllerDidConnect)
-        notificationCenter
-            .publisher(for: notificationName)
-            .handleEvents(receiveOutput: { [weak self] in
-                self?.log(notification: $0)
-                self?.controllers = GCController.controllers()
-            })
-            .receive(on: DispatchQueue.main)
-            .map({ _ in didConnect })
-            .assign(to: \.isGameControllerConnected, on: self)
-            .store(in: &cancellableNotifications)
+    func logConnectedControllers() {
+        guard isLoggingEnabled else { return }
+        log(information: "Number of connected controllers: \(controllers.count)", category: .controller)
+        controllers.enumerated().forEach {
+            let productCategory = String(describing: $0.element.productCategory)
+            log(information: "Controller \($0.offset + 1): \(productCategory)", category: .controller)
+        }
     }
 }
