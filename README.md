@@ -5,51 +5,53 @@
 [![license](https://img.shields.io/badge/license-MIT-67ac5b.svg?logo=data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUxMi4wMDkgNTEyLjAwOSIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyLjAwOSA1MTIuMDA5OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4Ij4KPHBhdGggc3R5bGU9ImZpbGw6IzRDQUY1MDsiIGQ9Ik0yNTUuOTQ0LDE1LjkzQzExNC42MTgsMTUuOTAyLDAuMDI4LDEzMC40NDYsMCwyNzEuNzcyQy0wLjAxOCwzNjQuMDg5LDQ5LjY4OSw0NDkuMjYsMTMwLjA3Nyw0OTQuNjUgIGMyLjQ1NiwxLjQxNSw1LjM4LDEuNzc3LDguMTA3LDEuMDAzYzIuNzA4LTAuNzU2LDUuMDA4LTIuNTUsNi40LTQuOTkybDc4LjkzMy0xMzkuNDk5YzIuODk1LTUuMTI2LDEuMDkxLTExLjYyOC00LjAzMi0xNC41MjggIGMtMzUuOTU0LTIwLjE5NC00OC43My02NS43MTItMjguNTM1LTEwMS42NjZzNjUuNzEyLTQ4LjczLDEwMS42NjYtMjguNTM1czQ4LjczLDY1LjcxMiwyOC41MzUsMTAxLjY2NiAgYy02LjcxMiwxMS45NTEtMTYuNTg1LDIxLjgyMy0yOC41MzUsMjguNTM1Yy01LjEyMywyLjktNi45MjcsOS40MDItNC4wMzIsMTQuNTI4bDc4LjcyLDEzOS40OTljMS4zODgsMi40NSwzLjY4OSw0LjI1Myw2LjQsNS4wMTMgIGMwLjkyOSwwLjI2OSwxLjg5MSwwLjQwNiwyLjg1OSwwLjQwNWMxLjg0LTAuMDAyLDMuNjQ4LTAuNDgsNS4yNDgtMS4zODdjMTIzLjA4Ny02OS40NDQsMTY2LjU3My0yMjUuNTIyLDk3LjEyOS0zNDguNjEgIEM0MzMuNTQ4LDY1LjYyOSwzNDguMzE5LDE1Ljg4NCwyNTUuOTQ0LDE1LjkzeiIvPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K)](https://en.wikipedia.org/wiki/MIT_License)
 
 # GCOverseer 🎮
-[Combine](https://developer.apple.com/documentation/combine) wrapper around Apple's [Game Controller Framework](https://developer.apple.com/documentation/gamecontroller).
+[AsyncSequence](https://developer.apple.com/documentation/swift/asyncsequence) wrapper around Apple's [Game Controller Framework](https://developer.apple.com/documentation/gamecontroller).
 
 ## Tested Platforms
- - iOS 18+
- - macOS 15+ (Sequoia+)
- - Mac Catalyst 18+
- - tvOS 18+
- - Xcode 16+
- - Swift 6+
+ - iOS 18.1.1
+ - macOS 15.1.1 (Sequoia)
+ - Mac Catalyst 18.1.1
+ - tvOS 18.1
+ - Xcode 16.1
+ - Swift 6.0.2
 
 ## Usage Examples
 
-### Handle Connected / Disconnected Events
+### Handle Controller Connection/Disconnection Events
 ```swift
 import SpriteKit
-import Combine
 import GCOverseer
 
 class GameScene: SKScene {
 
     let gcOverseer = GCOverseer()
 
-    var cancellables = Set<AnyCancellable>()
-
     override init(size: CGSize) {
         super.init(size: size)
 
-        // 🎮
-        gcOverseer.$isGameControllerConnected
-            .sink { isConnected in
-                // Do something
+        // 🎮 Handle game controller connection/disconnection asynchronously
+        Task {
+            for await controllerEvent in gcOverseer.gameControllerConnectionStream {
+                switch controllerEvent {
+                case .connected:
+                    print("A game controller connected.")
+                case .disconnected:
+                    print("A game controller disconnected.")
+                }
             }
-            .store(in: &cancellables)
+        }
     }
 }
 ```
 ## Available Properties
 Property | Description
 -------- | -----------
-`@Published var isGameControllerConnected: Bool` | Subscribe to this variable to keep track of connect/disconnect events of game controllers.
+`var gameControllerConnectionStream: AsyncStream<GameControllerEvent>` | Provides an `AsyncSequence` for observing connect/disconnect events of game controllers.
 
 ## Available APIs
 API | Description
 --- | -----------
-`controllers()` | Returns all controllers connected to the device. E.g. *DualShock*, *Xbox*, *Siri Remote* controllers, etc.
+`controllers` | Returns all controllers connected to the device. E.g. *DualShock*, *Xbox*, *Siri Remote* controllers, etc.
 `extendedGamepadControllers()` | Returns all controllers supporting the `extendedGamepad` profile connected to the device. E.g., *DualShock*, *Xbox* controllers, etc.
 `dualShockControllers()` | Returns all *DualShock* controllers that are connected to the device.
 `dualSenseControllers()` | Returns all *DualSense* controllers that are connected to the device.
